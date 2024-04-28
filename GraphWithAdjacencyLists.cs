@@ -3,56 +3,56 @@
     /* An implementation of the Graph data structure. MIT License.
    Made with ♠ by Racso. https://rac.so | https://github.com/Racso */
 
-    private readonly int initialCapacity;
-    private readonly Dictionary<int, List<int>> adj;
+    private readonly int initialNeighborsCount;
+    private readonly Dictionary<int, List<int>> neighbors;
 
-    public GraphWithAdjacencyLists(int initialCapacity)
+    public GraphWithAdjacencyLists(int initialNodesCount, int initialNeighborsCount)
     {
-        this.initialCapacity = initialCapacity;
-        adj = new Dictionary<int, List<int>>(initialCapacity);
+        neighbors = new Dictionary<int, List<int>>(initialNodesCount);
+        this.initialNeighborsCount = initialNeighborsCount;
     }
 
     public void AddEdge(int nodeA, int nodeB)
     {
-        if (!adj.ContainsKey(nodeA))
-            adj[nodeA] = new List<int>(initialCapacity);
+        if (!neighbors.ContainsKey(nodeA))
+            neighbors[nodeA] = new List<int>(initialNeighborsCount);
 
-        if (!adj.ContainsKey(nodeB))
-            adj[nodeB] = new List<int>(initialCapacity);
+        if (!neighbors.ContainsKey(nodeB))
+            neighbors[nodeB] = new List<int>(initialNeighborsCount);
 
-        adj[nodeA].Add(nodeB);
-        adj[nodeB].Add(nodeA);
+        neighbors[nodeA].Add(nodeB);
+        neighbors[nodeB].Add(nodeA);
     }
 
     public void RemoveEdge(int nodeA, int nodeB)
     {
-        if (!adj.ContainsKey(nodeA) || !adj.ContainsKey(nodeB))
+        if (!neighbors.ContainsKey(nodeA) || !neighbors.ContainsKey(nodeB))
             return;
 
-        adj[nodeA].Remove(nodeB);
-        adj[nodeB].Remove(nodeA);
+        neighbors[nodeA].Remove(nodeB);
+        neighbors[nodeB].Remove(nodeA);
     }
 
     public void RemoveNode(int node)
     {
-        if (!adj.ContainsKey(node))
+        if (!neighbors.ContainsKey(node))
             return;
 
-        foreach (int neighbor in adj[node])
-            adj[neighbor].Remove(node);
+        foreach (int neighbor in neighbors[node])
+            neighbors[neighbor].Remove(node);
 
-        adj.Remove(node);
+        neighbors.Remove(node);
     }
 
     public int GetDegree(int node)
-        => adj.ContainsKey(node) ? adj[node].Count : 0;
+        => neighbors.ContainsKey(node) ? neighbors[node].Count : 0;
 
     public IEnumerable<int> GetNeighbors(int node)
-        => adj.ContainsKey(node) ? adj[node] : Array.Empty<int>();
+        => neighbors.ContainsKey(node) ? neighbors[node] : Array.Empty<int>();
 
     public IEnumerable<int> GetNodes()
-        => adj.Keys;
+        => neighbors.Keys;
 
     public int GetNodeCount()
-        => adj.Count;
+        => neighbors.Count;
 }
