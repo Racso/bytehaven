@@ -1,4 +1,4 @@
-﻿namespace co.racso.bytehaven
+﻿namespace rac.so.bytehaven
 {
     public class PriorityQueue<T>
     {
